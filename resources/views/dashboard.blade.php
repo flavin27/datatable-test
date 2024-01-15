@@ -33,6 +33,14 @@
 </div>
 
 <script>
+    $(function () {
+    //ajax setup
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    })});
+
     var table = $('#example').DataTable({
         processing: true,
         info: true,
@@ -49,6 +57,25 @@
     });
     $(document).on('click','#closeModal', function(){
         $('#exampleModal').modal('hide');
+    });
+
+    $('#createModal').click(function(e){
+        e.preventDefault();
+        var name = $("input[name=name]").val();
+        var email = $("input[name=email]").val();
+        var password = $("input[name=password]").val();
+        var confirm_password = $("input[name=confirm_password]").val();
+        var _token = $("input[name=_token]").val();
+
+        $.ajax({
+            url: "{{ route('create.user') }}",
+            type:'POST',
+            data: {_token:_token, name:name, email:email, password:password, confirm_password:confirm_password},
+            success: function(data) {
+                $('#exampleModal').modal('hide');
+                table.draw();
+            }
+        });
     });
 </script>
 

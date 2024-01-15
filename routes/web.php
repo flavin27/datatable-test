@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\VerificationController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\DashboardController; // Add this line to import the DashboardController class
+use App\Http\Controllers\UserController; // Add this line to import the UserController class
 
 
 
@@ -26,4 +27,5 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/dashboard/data', [DashboardController::class, 'data'])->name('data.dashboard');
+    Route::post('dashboard/user', [UserController::class, 'store'])->name('create.user');
 });
